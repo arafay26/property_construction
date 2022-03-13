@@ -269,7 +269,7 @@
                                 <field name="c_line_ids">
                                     <tree editable="bottom">
                                         <field name="c_type_id" string='Commission Type'/>
-                                        <field name="payment_type"/>
+<!--                                        <field name="payment_type"/>-->
                                         <field name="amount"/>
                                         <field name="percentage" string="Percentage"/>
                                     </tree>
@@ -367,7 +367,7 @@
                                 <div>
                                     <div t-if="record.type" class="o_force_ltr">
                                         <strong>Property Type:</strong>
-                                        <field name="type"/>
+<!--                                        <field name="type"/>-->
                                     </div>
                                 </div>
                         </t>

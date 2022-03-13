@@ -4,7 +4,7 @@
     'category': 'Property Management',
     #     'sequence': 57,
     # 'summary': 'Ticket Extension',
-    'depends': ['account', 'sale', 'purchase','crm.lead','crm'],
+    'depends': ['account', 'sale', 'purchase','crm'],
     'description': """Project Management""",
     'data': [
         'ir.model.access.csv',
