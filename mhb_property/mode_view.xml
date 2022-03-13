@@ -1,0 +1,380 @@
+<odoo>
+    <data>
+		<record model="ir.ui.view" id="inherit_view_res_user_form">
+	        <field name="name">inherit.res.users.form</field>
+	        <field name="model">res.users</field>
+	        <field name="type">form</field>
+	        <field name="inherit_id" ref="base.view_users_form"/>
+	        <field name="arch" type="xml">
+				<xpath expr="//field[@name='signature']" position="after">
+                    <field name="c_type_id" string="Commission Type"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="user_commission_tree" model="ir.ui.view">
+            <field name="name">user.commission.tree</field>
+            <field name="model">user.commission</field>
+            <field name="arch" type="xml">
+                <tree string="Commission Management">
+                    <field name="user_id"/>
+                    <field name="total_amount" string="Total Amount"/>
+                    <field name="status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="user_commission_form" model="ir.ui.view">
+            <field name="name">user.commission.form</field>
+            <field name="model">user.commission</field>
+            <field name="arch" type="xml">
+                <form string="Commission Management">
+                    <header>
+                    <button string="Submitted" class="oe_highlight" type="object" name="GetSales" attrs="{'invisible':[('status','!=','Draft')]}"/>
+                    <button string="Validate" class="oe_highlight" type="object" name="SetValidated" attrs="{'invisible':[('status','!=','Submitted')]}"/>
+                    <button string="Paid" class="oe_highlight" type="object" name="SetPaid" attrs="{'invisible':[('status','!=','Validated')]}"/>
+                        <field name='status' widget="statusbar"/>
+                    </header>
+                    <sheet>
+                    <group>
+                        <group>
+                    <field name="user_id" attrs="{'readonly':[('status','!=','Draft')]}"/>
+                    <field name="total_amount" string="Total Amount" attrs="{'readonly':[('status','!=','Draft')]}"/>
+                            </group>
+                        <group>
+                            <field name="date" string="Date"/>
+                    </group>
+                    </group>
+                    <group string="Commission Lines">
+                        <field name="commission_ids">
+                            <tree editable="bottom" readonly="1">
+                                <field name="sale_id" string="Sale"/>
+                                <field name="commission"/>
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="property_project_tree" model="ir.ui.view">
+            <field name="name">property.project.tree</field>
+            <field name="model">project.property</field>
+            <field name="arch" type="xml">
+                <tree string="Property Project">
+                    <field name="name" string="Name"/>
+                    <field name="partner_id" string="Onwer"/>
+                    <field name="start_date" string="Date"/>
+                    <field name="type" string="Type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="property_project_form" model="ir.ui.view">
+            <field name="name">property.project.form</field>
+            <field name="model">project.property</field>
+            <field name="arch" type="xml">
+                <form string="Property Project">
+                    <sheet>
+                    <group>
+                        <group>
+                    <field name="name" string="Name"/>
+                    <field name="partner_id" string="Onwer"/>
+                            <field name="account_id" string="Account"/>
+                            </group>
+                        <group>
+                    <field name="start_date" string="Date"/>
+                    <field name="type" string="Type"/>
+                    <field name="payment_receive"/>
+</group>
+                    </group>
+<!--                        <group string="Plots/ Appartments Information">-->
+<!--                            <field name="plot_ids" nolabel="1">-->
+<!--                                <tree>-->
+<!--                                    <field name="state"/>-->
+<!--                                    <field name="type"/>-->
+<!--                                    <field name="size"/>-->
+<!--                                    <field name="number"/>-->
+<!--                                    <field name="street" attrs="{'readonly':[('type','!=','Plot')]}"/>-->
+<!--                                    <field name="block" attrs="{'readonly':[('state','!=','Plot')]}"/>-->
+<!--                                    <field name="park_facing"/>-->
+<!--                                    <field name="floor" attrs="{'readonly':[('state','=','Plot')]}"/>-->
+<!--                                    <field name="corner" />-->
+<!--                                    <field name="bed_rooms" attrs="{'readonly':[('state','=','Plot')]}"/>-->
+<!--                                    <field name="kitchen" attrs="{'readonly':[('state','=','Plot')]}"/>-->
+<!--                                </tree>-->
+<!--                                <form>-->
+<!--                                    <sheet>-->
+<!--                                    <group>-->
+<!--                                        <group>-->
+<!--                                    <field name="state"/>-->
+<!--                                    <field name="type"/>-->
+<!--                                    <field name="size"/>-->
+<!--                                    <field name="number"/>-->
+<!--                                    <field name="corner" />-->
+<!--                                    <field name="park_facing"/>-->
+<!--                                        </group><group>-->
+<!--                                    <field name="street" attrs="{'invisible':[('type','!=','Plot')]}"/>-->
+<!--                                    <field name="block" attrs="{'invisible':[('state','!=','Plot')]}"/>-->
+<!--                                    <field name="floor" attrs="{'invisible':[('state','=','Plot')]}"/>-->
+<!--                                    <field name="bed_rooms" attrs="{'invisible':[('state','=','Plot')]}"/>-->
+<!--                                    <field name="kitchen" attrs="{'invisible':[('state','=','Plot')]}"/>-->
+<!--                                    </group>-->
+<!--</group>-->
+<!--</sheet>-->
+<!--                                </form>-->
+<!--                            </field>-->
+
+<!--                        </group>-->
+                </sheet>
+
+                </form>
+            </field>
+
+        </record>
+                <record id="action_properties" model="ir.actions.act_window">
+            <field name="name">Properties</field>
+            <field name="res_model">project.property</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+                <record id="action_user_commission" model="ir.actions.act_window">
+            <field name="name">Commission Management</field>
+            <field name="res_model">user.commission</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	<menuitem name="Property Management" id="menu_property_management" sequence="2"/>
+	<menuitem name="Properties" id="menu_properties" parent="menu_property_management" action="action_properties" sequence="2"/>
+	<menuitem name="Commission Management" id="menu_user_commission" parent="menu_property_management" action="action_user_commission" sequence="8"/>
+
+        <record id="property_plot_form" model="ir.ui.view">
+            <field name="name">property.plot.form</field>
+            <field name="model">property.plot</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                    <button string="Quotation" class="oe_highlight" type="object" name="NewSaleOrder" attrs="{'invisible':[('state','!=','Available')]}"/>
+                    </header>
+                                    <sheet>
+                                    <group>
+                                        <group string="Basic Information">
+                                            <field name="property_id" string="Property"/>
+                                    <field name="type"/>
+                                    <field name="state"/>
+                                    <field name="property_stage"/>
+                                        <field name="schedule_id" string="Payment Schedule"/>
+                                        </group>
+                                        <group string="Location Details">
+                                    <field name="number"/>
+                                    <field name="block" />
+                                    <field name="scheme"/>
+                                    <field name="street"/>
+                                    <field name="city" />
+                                    <field name="country" />
+                                    </group>
+</group>
+                                        <group>
+                                            <group string="Property details" attrs="{'invisible':[('type','=','Plot')]}">
+                                                <field name="floor"/>
+                                                <field name="bed_rooms"/>
+                                                <field name="bathrooms"/>
+                                                <field name="balconies"/>
+
+                                            </group>
+                                        </group>
+                                        <group string="Amenities And Services">
+                                            <field name="detail_ids" nolabel="1" widget="many2many_tags"/>
+                                        </group>
+                                        <group string="Description">
+                                        <field name="description" nolabel="1"/>
+</group>
+                                        <notebook>
+                                            <page string="Sales Order">
+                                                <field name="order_ids" nolabel="1" readonly="1"/>
+
+                                            </page>
+                                            <page string="invoices">
+                                                <field name="move_ids" nolabel="1" readonly="1"/>
+
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+
+                </form></field></record>
+
+        <record id="property_plot_tree" model="ir.ui.view">
+            <field name="name">property.plot.tree</field>
+            <field name="model">property.plot</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="property_id" string="Property"/>
+                                    <field name="state"/>
+                                    <field name="type"/>
+                                    <field name="size"/>
+                                    <field name="number"/>
+                                    <field name="street"/>
+                                    <field name="block" />
+<!--                                    <field name="park_facing"/>-->
+                                    <field name="floor" />
+<!--                                    <field name="corner" />-->
+                                    <field name="bed_rooms" />
+                                    <field name="kitchen" />
+</tree>
+            </field>
+        </record>
+                <record id="action_properties_plot" model="ir.actions.act_window">
+            <field name="name">Plots/Appartments</field>
+            <field name="res_model">property.plot</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	<menuitem name="Plots/Appartments" id="menu_properties_plot" parent="menu_property_management" action="action_properties_plot" sequence="2"/>
+
+        <record id="payment_schedule_tree" model="ir.ui.view">
+            <field name="name">payment.schedule.tree</field>
+            <field name="model">payment.schedule</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" string="Name"/>
+                    <field name="property_id" string="Property"/>
+                </tree>
+            </field>
+        </record>
+        <record id="payment_schedule_form" model="ir.ui.view">
+            <field name="name">payment.schedule.form</field>
+            <field name="model">payment.schedule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <group>
+                        <group>
+                    <field name="name" string="Name"/>
+                            </group>
+                        <group>
+                    <field name="property_id" string="Property"/>
+                        </group>
+                    </group>
+                        <notebook>
+                            <page string="Lines">
+                            <field name="line_ids" nolabel="1">
+                                <tree editable="bottom">
+                            <field name="payment_type" string="payment Type"/>
+                            <field name="no_of_months" string="Months"/>
+                            <field name="recurring" />
+                            <field name="interval" attrs="{'readonly':[('recurring','=',False)]}"/>
+                            <field name="number_of_invoices" attrs="{'readonly':[('recurring','=',False)]}"/>
+                            <field name="amount" string="amount"/>
+                                </tree>
+                            </field>
+                            </page>
+                            <page string="Commission Details">
+                                <field name="c_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="c_type_id" string='Commission Type'/>
+                                        <field name="payment_type"/>
+                                        <field name="amount"/>
+                                        <field name="percentage" string="Percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+
+                </sheet>
+                </form>
+            </field>
+        </record>
+                <record id="action_payment_schedule" model="ir.actions.act_window">
+            <field name="name">Payment Schedule</field>
+            <field name="res_model">payment.schedule</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	<menuitem name="Payment Schedule" id="menu_payment_schedule" parent="menu_property_management" action="action_payment_schedule" sequence="2"/>
+                <record id="action_type_payment" model="ir.actions.act_window">
+            <field name="name">Payment Type</field>
+            <field name="res_model">type.payment</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+                <record id="action_amenities" model="ir.actions.act_window">
+            <field name="name">Amenities Type</field>
+            <field name="res_model">amenities.detail</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	<menuitem name="Configuration" id="menu_configuration" parent="menu_property_management" action="action_type_payment" sequence="2"/>
+	<menuitem name="Payment Type" id="menu_payment_type" parent="menu_configuration" action="action_type_payment" sequence="1000"/>
+	<menuitem name="Amenities" id="menu_amenities" parent="menu_configuration" action="action_amenities" sequence="1000"/>
+            <menuitem id="menu_account_customer_property" parent="menu_property_management" name="Customers" action="account.res_partner_action_customer" sequence="4"/>
+
+		<record model="ir.ui.view" id="inherit_view_sale_order_form">
+	        <field name="name">inherit.sale.order.form</field>
+	        <field name="model">sale.order</field>
+	        <field name="type">form</field>
+	        <field name="inherit_id" ref="sale.view_order_form"/>
+	        <field name="arch" type="xml">
+				<xpath expr="//field[@name='validity_date']" position="replace">
+                    <field name="payment_type" string="Payment Type"/>
+                </xpath>
+				<xpath expr="//field[@name='payment_term_id']" position="replace">
+                    <field name="plot_id" string="Plot" invisible="1"/>
+                </xpath>
+				<xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="replace">
+                    <field name="product_id" string="Plot" domain="[('is_plot','=',True),('state','=','Available')]"/>
+                </xpath>
+            </field>
+        </record>
+
+		<record model="ir.ui.view" id="inherit_view_partner_form">
+	        <field name="name">inherit.res.partner.form</field>
+	        <field name="model">res.partner</field>
+	        <field name="type">form</field>
+	        <field name="inherit_id" ref="base.view_partner_form"/>
+	        <field name="arch" type="xml">
+				<xpath expr="//field[@name='email']" position="after">
+                    <field name="cnic" string="Cnic"/>
+                    <field name="filer" string="Is filer"/>
+                    <field name="interests" string="Interests"/>
+                    <field name="owner" string="Owner"/>
+
+                </xpath>
+            </field>
+        </record>
+                    <menuitem id="account.menu_action_move_out_invoice_type" action="account.action_move_out_invoice_type" sequence="1" parent="menu_property_management"/>
+<!--        <menuitem id="sale.sale_menu_root"-->
+<!--            name="Sales"-->
+<!--            web_icon="sale_management,static/description/icon.png"-->
+<!--                  parent="menu_property_management"-->
+<!--            active="active"-->
+<!--            sequence="7"/>-->
+
+		<record model="ir.ui.view" id="inherit_view_crm_lead_form">
+	        <field name="name">inherit.crm.lead.form</field>
+	        <field name="model">crm.lead</field>
+	        <field name="type">form</field>
+	        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+	        <field name="arch" type="xml">
+				<xpath expr="//field[@name='lang_id']" position="after">
+                    <field name="cnic" string="Cnic"/>
+                    <field name="filer" string="Is filer"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_property_plot_kanban" model="ir.ui.view">
+            <field name="name">project.property.kanban</field>
+            <field name="model">res.company</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                                <div>
+                                    <div t-if="record.type" class="o_force_ltr">
+                                        <strong>Property Type:</strong>
+                                        <field name="type"/>
+                                    </div>
+                                </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+    </data>
+</odoo>

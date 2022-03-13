@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_property,project_property,model_project_property,base.group_user,1,1,1,1
+access_property_plot,property_plot,model_property_plot,base.group_user,1,1,1,1
+access_payment_schedule,payment_schedule,model_payment_schedule,base.group_user,1,1,1,1
+access_payment_schedule_line,payment_schedule_line,model_payment_schedule_line,base.group_user,1,1,1,1
+access_type_payment,payment_type_payment,model_type_payment,base.group_user,1,1,1,1
+access_type_payment,payment_type_payment,model_type_payment,base.group_user,1,1,1,1
+access_amenities_detail,amenities_detail,model_amenities_detail,base.group_user,1,1,1,1
+access_commission_line,commission_line,model_commission_line,base.group_user,1,1,1,1
+access_user_commission,user_commission,model_user_commission,base.group_user,1,1,1,1
+access_user_commission_line,user_commission_line,model_user_commission_line,base.group_user,1,1,1,1
